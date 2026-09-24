@@ -1,0 +1,28 @@
+# 依存パッケージ
+node_modules/
+
+# 秘密情報・個人設定（絶対にコミットしない）
+.env
+.env.*
+*.local.*
+secrets.*
+config.local.json
+
+# clasp（GAS 連携ツール）の個人設定
+.clasprc.json
+.clasp.json
+
+# GAS URL を埋め込んだ個人用ブックマークレット
+bookmarklet/dist/*.personal.txt
+
+# 取得データのエクスポート
+*.csv
+*.xlsx
+exports/
+
+# OS / エディタ
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/

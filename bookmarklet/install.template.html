@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>note アクセス解析ブックマークレット v2 インストール</title>
+<style>
+  :root { --bg:#fafafa; --fg:#222; --sub:#666; --card:#fff; --line:#ddd; --accent:#1a73e8; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#16181c; --fg:#e8e8e8; --sub:#9aa0a6; --card:#202328; --line:#3a3d42; --accent:#8ab4f8; } }
+  body { margin:0; background:var(--bg); color:var(--fg); font-family:system-ui,-apple-system,"Hiragino Sans","Noto Sans JP",sans-serif; line-height:1.7; }
+  main { max-width:720px; margin:0 auto; padding:32px 16px 64px; }
+  h1 { font-size:1.4rem; margin:0 0 4px; }
+  .sub { color:var(--sub); margin:0 0 24px; font-size:.9rem; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:20px; margin-bottom:16px; }
+  label { font-weight:600; display:block; margin-bottom:6px; }
+  input { width:100%; box-sizing:border-box; padding:10px; font-size:14px; border:1px solid var(--line); border-radius:6px; background:var(--bg); color:var(--fg); }
+  .links { display:flex; flex-wrap:wrap; gap:10px; margin-top:8px; }
+  .links a { display:inline-block; padding:10px 16px; border-radius:8px; background:var(--accent); color:#fff; text-decoration:none; font-weight:600; cursor:grab; }
+  @media (prefers-color-scheme: dark) { .links a { color:#111; } }
+  .links a[aria-disabled="true"] { opacity:.35; pointer-events:none; }
+  ol { padding-left:1.2em; margin:0; }
+  .note { font-size:.85rem; color:var(--sub); }
+</style>
+</head>
+<body>
+<main>
+  <h1>note アクセス解析ブックマークレット v2</h1>
+  <p class="sub">note公式とは無関係の非公式ツールです。取得したデータはあなたのGoogleスプレッドシートにだけ保存されます。</p>
+
+  <div class="card">
+    <label for="gas">1. GASのウェブアプリURLを入力</label>
+    <input id="gas" placeholder="https://script.google.com/macros/s/xxxxxxxx/exec" autocomplete="off">
+    <p class="note">URLはこのページの中だけで使われ、どこにも送信されません。</p>
+  </div>
+
+  <div class="card">
+    <label>2. 下のボタンをブックマークバーにドラッグ</label>
+    <div class="links" id="links"></div>
+  </div>
+
+  <div class="card">
+    <label>使い方</label>
+    <ol>
+      <li>noteにログインした状態で、<b>note.com のダッシュボード</b>を開く</li>
+      <li>ブックマークバーのボタンをクリック</li>
+      <li>画面右下の進捗パネルで完了を確認（途中で「停止」も可）</li>
+    </ol>
+    <p class="note">取得は1秒以上の間隔をあけて行います。認証情報はnoteとのやりとりにだけ使い、GASを含む外部には送りません。</p>
+  </div>
+</main>
+<script>
+  const BOOKMARKLETS = /*__BOOKMARKLETS__*/[];
+  const input = document.getElementById('gas');
+  const wrap = document.getElementById('links');
+  const valid = (u) => /^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/.test(u);
+  function render() {
+    const url = input.value.trim();
+    const ok = valid(url);
+    wrap.innerHTML = '';
+    for (const b of BOOKMARKLETS) {
+      const a = document.createElement('a');
+      a.textContent = b.name;
+      a.href = ok ? b.code.replace('YOUR_GAS_URL_HERE', url) : '#';
+      a.setAttribute('aria-disabled', String(!ok));
+      a.onclick = (e) => e.preventDefault();
+      wrap.appendChild(a);
+    }
+  }
+  input.addEventListener('input', render);
+  render();
+</script>
+</body>
+</html>
