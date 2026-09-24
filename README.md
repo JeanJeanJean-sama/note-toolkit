@@ -13,6 +13,10 @@ note（note.com）のクリエイター向け、データ収集・分析の補�
 | [`gas-automation/`](gas-automation/) | 自分の記事と質問箱のスプレッドシートへの自動保存、読者開拓の候補提案、トレンドと過去記事の照合（Discordに通知） | Google Apps Script |
 | [`docs/`](docs/) | 開発メモ（note内部APIの調査記録） | － |
 
+## 関連プロジェクト
+
+- [Pirates of note（Pon）](https://github.com/jeanjeanjean-sama/pirates-of-note)：noteのアクセス数値を毎日記録するChrome拡張機能
+
 ## 利用上の注意
 
 - 取得するのは**自分のアカウントのデータ**に限ってください。
